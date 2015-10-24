@@ -62,7 +62,11 @@ public class Presenter implements SearchPresenter, ModelCallbacks {
     }
 
     /**
-     * Return null if no results
+     * Return empty list if no results
+     * Throw exception if response cannot be parsed, like in case of
+     * non-success response type.
+     *
+     * This is a parser for JSON data. Not sure if it belongs to Presenter or Model.
      * */
     private List<SearchResult> getResultList(String dataString) throws JSONException {
         // TODO this needs refactoring into smaller testable pieces

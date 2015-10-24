@@ -2,8 +2,8 @@ package com.ghettoapps.nce;
 
 import android.app.SearchManager;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.SearchView.OnQueryTextListener;
@@ -24,12 +24,14 @@ public class SearchActivity extends AppCompatActivity implements PresenterCallba
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
         Log.d(TAG, "onCreate");
+        setStrictMode();
+        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        // Activity owns Presenter
         mPresenter = new Presenter(this, this);
 
         // Initialize Empty result list
@@ -40,9 +42,13 @@ public class SearchActivity extends AppCompatActivity implements PresenterCallba
         searchListView.setAdapter(mListAdapter);
     }
 
-    @Override
-    protected void onNewIntent (Intent intent) {
-        Log.d(TAG, "onNewIntent");
+    private void setStrictMode() {
+        StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
+                .detectNetwork()
+                .build());
+        StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder()
+                .detectLeakedClosableObjects()
+                .build());
     }
 
     @Override
@@ -75,21 +81,11 @@ public class SearchActivity extends AppCompatActivity implements PresenterCallba
         return true;
     }
 
-    /**
-     * Called when the user submits the query. This could be due to a key press on the
-     * keyboard or due to pressing a submit button.
-     * The listener can override the standard behavior by returning true
-     * to indicate that it has handled the submit request. Otherwise return false to
-     * let the SearchView handle the submission by launching any associated intent.
-     *
-     * @param query the query text that is to be submitted
-     * @return true if the query has been handled by the listener, false to let the
-     * SearchView perform the default action.
-     */
     @Override
     public boolean onQueryTextSubmit(String query) {
         Log.d(TAG, "onQueryTextSubmit");
         Log.d(TAG, query);
+        // Do nothing
         return true;
     }
 

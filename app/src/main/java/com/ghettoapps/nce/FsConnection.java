@@ -35,12 +35,6 @@ public class FsConnection {
 
     public void query(String query, String lat, String lon) {
         Log.d(TAG, "query ");
-        if (lat == null || lon == null) {
-            Log.w(TAG, "Coordinates not provided");
-            // TODO some nice place for these
-            lat = "65.0346866";
-            lon = "25.4234346";
-        }
         query = encodeUrl(query);
         // Query string may be null or there is no connection, just skip.
         if(query != null && isConnected()) {
@@ -73,6 +67,9 @@ public class FsConnection {
         }
     }
 
+    /**
+     * Must be called from background thread
+     */
     private String downloadUrl(final String url) throws IOException {
         Log.d(TAG, "downloadUrl");
         Log.d(TAG, url);

@@ -25,9 +25,8 @@ public class GmsClient implements Closeable, ConnectionCallbacks, OnConnectionFa
     private static final String TAG = "GmsClient";
     private GoogleApiClient mGoogleApiClient = null;
     private Location mLastLocation = null;
-
-    private String mLatitudeText = null;
-    private String mLongitudeText = null;
+    private String mLatitudeText = "65.0346866";
+    private String mLongitudeText = "25.4234346";
     private LocationRequest mLocationRequest = null;
     private boolean mLocating = false;
 
