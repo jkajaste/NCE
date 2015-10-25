@@ -50,15 +50,26 @@ public class Presenter implements SearchPresenter, ModelCallbacks {
     }
 
     @Override
-    public void onQueryResult(String result) {
+    public void onQueryResult(final String result) {
         Log.d(TAG, "onQueryResult");
         Log.d(TAG, result);
         try {
             mView.onResult(getResultList(result));
         } catch (JSONException je) {
-            // View keeps showing previous results
+            // View keeps showing previous results and
+            // informs user about a problem.
+            // Any problem with server response causes the same
+            // error message for now.
             Log.e(TAG, "Response could not be parsed", je);
+            mView.onError("Bad response from service");
         }
+    }
+
+    @Override
+    public void onQueryError(final String error) {
+        Log.d(TAG, "onQueryError");
+        Log.d(TAG, error);
+        mView.onError(error);
     }
 
     /**

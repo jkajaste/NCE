@@ -47,8 +47,15 @@ public class Model implements Closeable, SearchModel, FsResultListener {
     }
 
     @Override
-    public void onFsResult(String result) {
+    public void onFsResult(final String result) {
         Log.d(TAG, "onFsResult");
         mCallbacks.onQueryResult(result);
     }
+
+    @Override
+    public void onFsError(final String error) {
+        Log.d(TAG, "onFsError");
+        mCallbacks.onQueryError(error);
+    }
+
 }

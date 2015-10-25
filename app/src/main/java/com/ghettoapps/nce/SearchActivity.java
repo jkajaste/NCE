@@ -4,6 +4,7 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.SearchView.OnQueryTextListener;
@@ -111,6 +112,15 @@ public class SearchActivity extends AppCompatActivity implements PresenterCallba
         mListAdapter.clear();
         mSearchResults.addAll(results);
         mListAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onError(final String error) {
+        // It is activity's responsibility to show the result list
+        Log.d(TAG, "onError");
+        Log.d(TAG, error);
+        Snackbar.make(findViewById(R.id.search_list_view), error, Snackbar.LENGTH_LONG)
+                .setAction("Action", null).show();
     }
 
 }

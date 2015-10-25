@@ -37,14 +37,19 @@ public class FsConnection {
         Log.d(TAG, "query ");
         query = encodeUrl(query);
         // Query string may be null or there is no connection, just skip.
-        if(query != null && isConnected()) {
-            new FsQueryTask().execute("https://api.foursquare.com/v2/venues/explore" +
-                    "?query=" + query +
-                    "&ll=" + lat + "," + lon +
-                    "&v=" + DateFormat.format("yyyyMMdd", mCalendar) +
-                    "&client_id=" + Credential.ID +
-                    "&client_secret=" + Credential.SECRET);
-            Log.d(TAG, "FsQueryTask started");
+        if(query != null) {
+            if (isConnected()) {
+                new FsQueryTask().execute("https://api.foursquare.com/v2/venues/explore" +
+                        "?query=" + query +
+                        "&ll=" + lat + "," + lon +
+                        "&v=" + DateFormat.format("yyyyMMdd", mCalendar) +
+                        "&client_id=" + Credential.ID +
+                        "&client_secret=" + Credential.SECRET);
+                Log.d(TAG, "FsQueryTask started");
+            } else {
+                // Show this hard coded error message for now
+                mListener.onFsError("No internet connection");
+            }
         }
     }
 
